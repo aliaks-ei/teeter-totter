@@ -1,4 +1,6 @@
+import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY }    from '@/constants/controls';
 import { MIN_WEIGHT, MAX_WEIGHT, SCALE_STEP } from '@/constants/shape-params';
+
 import helpers from '@/utils/helpers';
 
 const mutations = {
@@ -47,10 +49,10 @@ const mutations = {
     },
     
     moveShape({ fallingShapes }, { keyCode, width }) {
-        if (keyCode === 37 && fallingShapes[0].left - 1 >= 0) {
+        if (keyCode === LEFT_ARROW_KEY && fallingShapes[0].left - 1 >= 0) {
             fallingShapes[0].left--;
         }
-        else if (keyCode === 39 && fallingShapes[0].left + width + 1 <= 45) {
+        else if (keyCode === RIGHT_ARROW_KEY && fallingShapes[0].left + width + 1 <= 45) {
             fallingShapes[0].left++;
         }
     }

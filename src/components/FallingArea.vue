@@ -11,7 +11,14 @@
 
 <script>
     import { mapGetters, mapState, mapMutations } from 'vuex';
+
+    import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY } from '@/constants/controls';
     import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter-params';
+    import { 
+        FALLING_SHAPE_TOP_POINT,
+        MAX_FALLING_INTERVAL_GAP, 
+        MIN_FALLING_INTERVAL_GAP 
+    } from '@/constants/shape-params';
 
     import Shape from './Shape.vue';
 
@@ -23,8 +30,8 @@
                 intervalId       : null,
                 shapeBottomLimit : null,
 
-                fallingShapeTop : 0,
-                intervalGap     : 10
+                fallingShapeTop : FALLING_SHAPE_TOP_POINT,
+                intervalGap     : MAX_FALLING_INTERVAL_GAP
             };
         },
         computed: {
@@ -53,8 +60,8 @@
                     setTimeout(() => {
                         this.finishGame();
 
-                        this.fallingShapeTop = 0;
-                        this.intervalGap     = 10;
+                        this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
+                        this.intervalGap     = MAX_FALLING_INTERVAL_GAP;
 
                         this.generateShape();
                         this.generateShape();
@@ -91,8 +98,8 @@
 
                         clearInterval(this.intervalId);
                         
-                        this.fallingShapeTop = 0;
-                        this.intervalGap > 5 && this.intervalGap--;
+                        this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
+                        this.intervalGap > MIN_FALLING_INTERVAL_GAP && this.intervalGap--;
 
                         this.addDroppedShape(droppedShape);
                         this.generateShape();
@@ -120,7 +127,9 @@
             },
 
             moveFallingShape({ keyCode }) {
-                if (this.isGamePaused || ![37, 39].includes(keyCode)) return;
+                const isArrowKeyPressed = [LEFT_ARROW_KEY, RIGHT_ARROW_KEY].includes(keyCode);
+
+                if (this.isGamePaused || !isArrowKeyPressed) return;
 
                 const shapeWidth = this.fallingShapeEl.getBoundingClientRect().width;
                 const areaWidth  = document.querySelector('.falling-area').getBoundingClientRect().width;

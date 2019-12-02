@@ -3,13 +3,10 @@ import helpers from '@/utils/helpers';
 
 const getters = {
     boardBendingAngle(state, { droppedShapesSum, randomlyPlacedShapesSum }) {
-        let angle = null;
+        let angle = 0;
 
         if (!droppedShapesSum) {
             angle = MAX_BENDING_ANGLE;
-        }
-        else if (droppedShapesSum === randomlyPlacedShapesSum) {
-            angle = 0;
         }
         else {
             const subtraction = Math.abs(droppedShapesSum - randomlyPlacedShapesSum);

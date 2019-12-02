@@ -72,12 +72,9 @@
 
                 const start = this.randomlyPlaced ? 55 : 0;
 
-                if (this.randomlyPlaced && left > 25) {
-                    this.$el.style.left = `calc(${ start + left }% - ${ width }px)`;
-                }
-                else {
-                    this.$el.style.left = `${ start + left }%`;
-                }
+                this.$el.style.left = (this.randomlyPlaced && left > 25)
+                    ? `calc(${ start + left }% - ${ width }px)`
+                    : `${ start + left }%`;
             }
         }
     };

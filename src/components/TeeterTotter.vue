@@ -21,6 +21,7 @@
                 randomly-placed
             ></shape>
         </div>
+        
         <div class="teeter-totter__foundation"></div>
     </div>
 </template>

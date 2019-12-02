@@ -12,6 +12,7 @@
 
 <script>
     import { mapMutations, mapState } from 'vuex';
+    import { SPACE_KEY } from '@/constants/controls';
 
     export default {
         computed: {
@@ -19,16 +20,15 @@
         },
         created() {
             window.addEventListener('keydown', this.handleSpaceClick);
-
-            this.$once('hook:beforeDestroy', () => {
-                window.removeEventListener('keydown', this.handleSpaceClick);
-            });
+        },
+        beforeDestroy() {
+            window.removeEventListener('keydown', this.handleSpaceClick);
         },
         methods: {
             ...mapMutations([ 'toggleSimulation' ]),
 
-            handleSpaceClick(event) {
-                if (event.keyCode === 32 && this.$el.firstChild !== event.target) {
+            handleSpaceClick({ keyCode, target }) {
+                if (keyCode === SPACE_KEY && this.$el.firstChild !== target) {
                     this.toggleSimulation();
                 }
             }
