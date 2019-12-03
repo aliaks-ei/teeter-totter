@@ -3,8 +3,6 @@ const state = {
     fallingShapes        : [],
     randomlyPlacedShapes : [],
 
-    lastShapeId: 1,
-
     isGamePaused: true
 };
 

@@ -1,5 +1,4 @@
-import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY }    from '@/constants/controls';
-import { MIN_WEIGHT, MAX_WEIGHT, SCALE_STEP } from '@/constants/shape-params';
+import { MIN_WEIGHT, MAX_WEIGHT, SCALE_STEP } from '@/constants/shape';
 
 import helpers from '@/utils/helpers';
 
@@ -22,39 +21,32 @@ const mutations = {
         state.randomlyPlacedShapes = [];
     },
 
-    generateShape(state, randomlyPlaced = false) {
-        const weight = MIN_WEIGHT + Math.round(Math.random() * (MAX_WEIGHT - 1));
-        const type   = 1 + Math.round(Math.random() * 2);
-        const left   = Math.round(Math.random() * 10) * 4.5;
-        const scale  = 1 + SCALE_STEP * (weight - 1);
+    generateShape({ randomlyPlacedShapes, fallingShapes }, randomlyPlaced = false) {
+        const weight = helpers.generateRandomNumber(MIN_WEIGHT, MAX_WEIGHT - 1);
+        const type   = helpers.generateRandomNumber(1, 2);
+        const left   = helpers.generateRandomNumber(0, 40);
         const color  = helpers.generateRandomRGBColor();
-    
-        state.lastShapeId += 1;
+        const scale  = 1 + SCALE_STEP * (weight - 1);
+        const id     = helpers.getId.next().value;
 
-        const shape = { 
-            id: state.lastShapeId, 
-            color,
-            left, 
-            scale, 
-            type, 
-            weight 
-        };
+        const shape = { id, color, left, scale, type, weight };
 
         if (randomlyPlaced) {
-            state.randomlyPlacedShapes.push(shape);
+            randomlyPlacedShapes.push(shape);
         }
         else {
-            state.fallingShapes.push(shape);
+            fallingShapes.push(shape);
         }
     },
     
-    moveShape({ fallingShapes }, { keyCode, width }) {
-        if (keyCode === LEFT_ARROW_KEY && fallingShapes[0].left - 1 >= 0) {
-            fallingShapes[0].left--;
-        }
-        else if (keyCode === RIGHT_ARROW_KEY && fallingShapes[0].left + width + 1 <= 45) {
-            fallingShapes[0].left++;
-        }
+    moveShape({ fallingShapes }, { moveLeft, width }) {
+        const shape = fallingShapes[0];
+
+        const canMoveLeft  = shape.left - 1 >= 0;
+        const canMoveRight = shape.left + width + 1 <= 45;
+
+        if (moveLeft) canMoveLeft && shape.left--;
+        else canMoveRight && shape.left++;
     }
 };
 

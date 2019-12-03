@@ -1,4 +1,4 @@
-import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter-params';
+import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter';
 import helpers from '@/utils/helpers';
 
 const getters = {

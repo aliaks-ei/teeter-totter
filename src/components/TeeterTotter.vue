@@ -32,7 +32,7 @@
         MAX_BENDING_ANGLE, 
         MIN_BENDING_ANGLE,
         BOARD_HEIGHT 
-    } from '@/constants/teeter-totter-params';
+    } from '@/constants/teeter-totter';
 
     import Shape from './Shape.vue';
 

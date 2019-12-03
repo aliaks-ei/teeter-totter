@@ -17,12 +17,12 @@
         MAX_BENDING_ANGLE, 
         MIN_BENDING_ANGLE,
         BOARD_HEIGHT 
-    } from '@/constants/teeter-totter-params';
+    } from '@/constants/teeter-totter';
     import { 
         FALLING_SHAPE_TOP_POINT,
         MAX_FALLING_INTERVAL_GAP, 
         MIN_FALLING_INTERVAL_GAP 
-    } from '@/constants/shape-params';
+    } from '@/constants/shape';
 
     import Shape from './Shape.vue';
 
@@ -149,7 +149,10 @@
                 const shapeWidth = this.fallingShapeEl.getBoundingClientRect().width;
                 const areaWidth  = document.querySelector('.falling-area').getBoundingClientRect().width;
 
-                this.moveShape({ keyCode, width: (shapeWidth / areaWidth) * 100 });
+                this.moveShape({ 
+                    moveLeft : keyCode === LEFT_ARROW_KEY, 
+                    width    : (shapeWidth / areaWidth) * 100 
+                });
                 this.$nextTick(this.getShapeBottomLimit);
             }
         }

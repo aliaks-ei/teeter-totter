@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import { CIRCLE, TRIANGLE, SQUARE } from '@/constants/shape-params';
+    import { CIRCLE, TRIANGLE, SQUARE } from '@/constants/shape';
 
     export default {
         name  : 'Shape',
