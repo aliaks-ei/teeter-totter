@@ -1,4 +1,4 @@
-import { MAX_BENDING_ANGLE } from '@/constants/teeter-totter-params';
+import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter-params';
 import helpers from '@/utils/helpers';
 
 const getters = {
@@ -15,12 +15,17 @@ const getters = {
                 ? subtraction / droppedShapesSum * -50 
                 : subtraction / randomlyPlacedShapesSum * 50;
         }
-        console.log(angle);
+
         return angle;
     },
     
     droppedShapesSum({ droppedShapes }) {
         return helpers.getShapesProportion(droppedShapes, true);
+    },
+
+    isBoardAngleWithinLimits(state, { boardBendingAngle }) {
+        return boardBendingAngle > MIN_BENDING_ANGLE 
+            && boardBendingAngle < MAX_BENDING_ANGLE;
     },
 
     randomlyPlacedShapesSum({ randomlyPlacedShapes }) {

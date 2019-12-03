@@ -38,7 +38,7 @@
             };
         },
         computed: {
-            ...mapGetters([ 'boardBendingAngle' ]),
+            ...mapGetters([ 'boardBendingAngle', 'isBoardAngleWithinLimits' ]),
             ...mapState([ 'fallingShapes', 'isGamePaused' ]),
 
             fallingShapeEl() {
@@ -49,29 +49,26 @@
         },
         created() {
             this.initGame();
+        },
+        mounted() {
+            const boardEl = document.querySelector('.teeter-totter__board');
 
+            boardEl.addEventListener('transitionend', this.handleBoardTransitionEnd);
             window.addEventListener('keydown', this.moveFallingShape);
 
             this.$once('hook:beforeDestroy', () => {
+                boardEl.removeEventListener('transitionend', this.handleBoardTransitionEnd);
                 window.removeEventListener('keydown', this.moveFallingShape);
             });
         },
         watch: {
-            boardBendingAngle(current) {
-                if (current > MAX_BENDING_ANGLE || current < MIN_BENDING_ANGLE) {
-                    setTimeout(() => {
-                        this.finishGame();
-                        this.initGame();
-                    }, 400);
-                }
-            },
-
             isGamePaused: {
                 handler(current) {
                     if (current) {
                         clearInterval(this.intervalId);
                     }
                     else {
+                        this.getShapeBottomLimit();
                         this.animateShape();
                     }
                 }
@@ -86,8 +83,6 @@
             ]),
 
             animateShape() {
-                this.getShapeBottomLimit();
-
                 this.intervalId = setInterval(() => {
                     if (this.fallingShapeTop >= this.shapeBottomLimit) {
                         const droppedShape = this.fallingShapes.shift();
@@ -99,7 +94,7 @@
 
                         this.addDroppedShape(droppedShape);
                         this.generateShape();
-                        this.animateShape();
+                        this.animateShape(); 
                     }
                     else {
                         this.fallingShapeTop += 1;
@@ -122,6 +117,18 @@
                     : boardBounds.bottom - pointOnBoard - shapeBounds.height - panelBounds.height;
             },
 
+            handleBoardTransitionEnd() {
+                if (this.isGamePaused) return;
+
+                if (this.isBoardAngleWithinLimits) {
+                    this.getShapeBottomLimit();
+                }
+                else {
+                    this.finishGame();
+                    this.initGame();
+                }
+            },
+
             initGame() {
                 this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
                 this.intervalGap     = MAX_FALLING_INTERVAL_GAP;
@@ -142,10 +149,8 @@
                 const shapeWidth = this.fallingShapeEl.getBoundingClientRect().width;
                 const areaWidth  = document.querySelector('.falling-area').getBoundingClientRect().width;
 
-                const percentageWidth = (shapeWidth / areaWidth) * 100;
-
-                this.moveShape({ keyCode, width: percentageWidth });
-                this.getShapeBottomLimit();
+                this.moveShape({ keyCode, width: (shapeWidth / areaWidth) * 100 });
+                this.$nextTick(this.getShapeBottomLimit);
             }
         }
     };

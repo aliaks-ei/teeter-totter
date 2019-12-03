@@ -40,7 +40,7 @@
         name       : 'TeeterTotter',
         components : { Shape },
         computed   : {
-            ...mapGetters([ 'boardBendingAngle' ]),
+            ...mapGetters([ 'boardBendingAngle', 'isBoardAngleWithinLimits' ]),
             ...mapState([ 'droppedShapes', 'randomlyPlacedShapes' ]),
 
             boardStyles() {
@@ -56,10 +56,9 @@
         },
         watch: {
             shapesDiff(current) {
-                const isAngleWithinLimits = this.boardBendingAngle > MIN_BENDING_ANGLE 
-                    && this.boardBendingAngle < MAX_BENDING_ANGLE;
-
-                if (current > 0 && isAngleWithinLimits) this.generateShape(true);
+                if (current && this.isBoardAngleWithinLimits) {
+                    this.generateShape(true);
+                }
             }
         },
         methods: {
@@ -79,7 +78,6 @@
     .teeter-totter__board {
         position         : relative;
         width            : 100%;
-        // height           : 6px;
         background-color : #d74545;
         transition       : 300ms ease-in-out; 
     }
