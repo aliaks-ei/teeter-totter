@@ -22,7 +22,7 @@
     .playground {
         display        : flex;
         flex-direction : column;
-        height         : calc(100% - 4rem);
+        flex           : 1 1 100%;
         min-width      : 600px;
         width          : 80%;
         margin         : 0 auto;

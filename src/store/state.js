@@ -3,7 +3,8 @@ const state = {
     fallingShapes        : [],
     randomlyPlacedShapes : [],
 
-    isGamePaused: true
+    isGamePaused : true,
+    isModalShown : false
 };
 
 export default state;

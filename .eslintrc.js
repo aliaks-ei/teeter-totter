@@ -25,7 +25,7 @@ module.exports = {
 		'no-multi-spaces': 'off',
 		'no-param-reassign': 'off',
 		'no-plusplus': 'off',
-		'no-return-assign': 'error',
+		'no-return-assign': 'off',
 		'no-shadow': 'off',
 		'no-tabs': 0,
 		'no-trailing-spaces': 'off',

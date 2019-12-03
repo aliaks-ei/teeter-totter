@@ -46,6 +46,10 @@ const mutations = {
 
         if (moveLeft) canMoveLeft && shape.left--;
         else canMoveRight && shape.left++;
+    },
+
+    toggleModal(state, isShown = false) {
+        state.isModalShown = isShown;
     }
 };
 

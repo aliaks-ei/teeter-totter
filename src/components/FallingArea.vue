@@ -31,7 +31,7 @@
         components : { Shape },
         data() {
             return {
-                fallingShapeTop  : null,
+                fallingShapeTop  : FALLING_SHAPE_TOP_POINT,
                 intervalGap      : null,
                 intervalId       : null,
                 shapeBottomLimit : null

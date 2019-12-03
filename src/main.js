@@ -1,12 +1,13 @@
-import Vue   from 'vue';
-import Buefy from 'buefy';
+import Vue from 'vue';
+import { Button, Modal } from 'buefy';
 
 import App from './App.vue';
 import store from './store';
 
 import 'buefy/dist/buefy.css';
 
-Vue.use(Buefy);
+Vue.use(Button);
+Vue.use(Modal);
 
 Vue.config.productionTip = false;
 

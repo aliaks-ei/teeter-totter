@@ -115,7 +115,7 @@
 
         .shape__weight {
             position   : absolute;
-            top        : calc(100% + .9rem);
+            top        : calc(100% + 1rem);
             width      : 4.5rem;
             text-align : center;
         }

@@ -1,12 +1,48 @@
 <template>
     <header class="controls-panel">
-        <button 
-            class    = "controls-panel__play-button"
-            tabindex = "-1" 
-            @click   = "toggleSimulation"
-        >
-            {{ isGamePaused ? 'Start' : 'Stop' }}
-        </button>
+        <!-- Falling shapes stats -->
+        <div class="shapes-stats">
+            <div> 
+                Total weight: 
+                <span class="shapes-stats__weight"> {{ totalDroppedShapesWeight }} kg </span> 
+            </div>
+            <div> 
+                Momentum: 
+                <span class="shapes-stats__weight"> 
+                    {{ fallingShapes[0] && fallingShapes[0].weight }} kg 
+                </span> 
+            </div>
+        </div>
+
+        <div>
+            <!-- Play / pause btn  -->
+            <b-button 
+                id         = "play-btn"
+                class      = "controls-panel__btn"
+                type       = "is-primary" 
+                size       = "is-medium"
+                :icon-left = "isGamePaused ? 'play' : 'pause'"
+                @click     = "toggleSimulation"
+            ></b-button>
+
+            <!-- Restart game -->
+            <b-button 
+                class     = "controls-panel__btn"
+                type      = "is-primary" 
+                size      = "is-medium"
+                icon-left = "refresh"
+                @click    = "finishGame"
+                outlined
+            ></b-button>
+        </div>
+
+        <!-- Randomly places shapes stats  -->
+        <div class="shapes-stats">
+            <div> 
+                Total weight: 
+                <span class="shapes-stats__weight"> {{ totalRandomShapesWeight }} kg </span> 
+            </div>
+        </div>
     </header>
 </template>
 
@@ -16,7 +52,20 @@
 
     export default {
         computed: {
-            ...mapState([ 'isGamePaused' ])
+            ...mapState([ 
+                'droppedShapes',
+                'fallingShapes',
+                'isGamePaused', 
+                'randomlyPlacedShapes'
+            ]),
+
+            totalDroppedShapesWeight() {
+                return this.getTotalWeight(this.droppedShapes);
+            },
+
+            totalRandomShapesWeight() {
+                return this.getTotalWeight(this.randomlyPlacedShapes);
+            }
         },
         created() {
             window.addEventListener('keydown', this.handleSpaceClick);
@@ -25,10 +74,16 @@
             window.removeEventListener('keydown', this.handleSpaceClick);
         },
         methods: {
-            ...mapMutations([ 'toggleSimulation' ]),
+            ...mapMutations([ 'finishGame', 'toggleSimulation' ]),
+
+            getTotalWeight(shapes = []) {
+                return shapes.reduce((total, current) => total += current.weight, 0);
+            },
 
             handleSpaceClick({ keyCode, target }) {
-                if (keyCode === SPACE_KEY && this.$el.firstChild !== target) {
+                const playBtn = document.getElementById('play-btn');
+
+                if (keyCode === SPACE_KEY && playBtn !== target) {
                     this.toggleSimulation();
                 }
             }
@@ -40,26 +95,26 @@
 
     .controls-panel {
         display         : flex;
-        justify-content : center;
-        height          : 4rem;
+        justify-content : space-between;
+        flex            : 0 0 6rem;
+        padding         : .5rem 1.5rem;
     }
 
-    .controls-panel__play-button {
-        background-color : white;
-        border           : 1px solid lightcoral;
-        border-radius    : 4px;
-        width            : 112px;
-        height           : 2.5rem;
-        margin-top       : 0.5rem;
-        color            : lightcoral;
-        font-weight      : 600;   
-        cursor           : pointer;
-        transition       : 300ms ease-out;
+    .controls-panel__btn {
+        transition: 300ms ease-out;
 
-        &:hover {
-            background-color : lightcoral;
-            color            : white;
+        &:first-of-type {
+            margin-right: .5rem;
         }
+    }
+
+    .shapes-stats {
+        font-size: 14px;
+    }
+
+    .shapes-stats__weight {
+        font-size   : 1rem;
+        font-weight : 500;
     }
 
 </style>
