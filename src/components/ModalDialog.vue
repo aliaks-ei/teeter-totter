@@ -2,6 +2,7 @@
     <b-modal
         aria-role    = "dialog"
         :active.sync = "isModalShown"
+        :can-cancel  = "false"
         aria-modal
         has-modal-card
         trap-focus
@@ -15,20 +16,26 @@
                 Don't be so cut up about it.
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-primary">
+                <b-button 
+                    type   = "is-primary" 
+                    @click = "initGame"
+                >
                     Try again
-                </button>
+                </b-button>
             </footer>
         </div>
     </b-modal>
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         computed: {
             ...mapState([ 'isModalShown' ])
+        },
+        methods: {
+            ...mapActions([ 'initGame' ])
         }
     };
 </script>

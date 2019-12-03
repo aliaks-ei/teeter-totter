@@ -11,6 +11,5 @@ export const MAX_WEIGHT = 10;
 export const SCALE_STEP = 0.08;
 
 // Falling shapes
-export const FALLING_SHAPE_TOP_POINT  = 0;
 export const MAX_FALLING_INTERVAL_GAP = 10;
 export const MIN_FALLING_INTERVAL_GAP = 5;

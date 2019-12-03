@@ -6,6 +6,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+
     import FallingArea  from './FallingArea.vue';
     import TeeterTotter from './TeeterTotter.vue';
 
@@ -13,7 +15,13 @@
 		components: { 
             FallingArea,
             TeeterTotter 
-        } 
+        },
+        created() {
+            this.initGame();
+        },
+        methods: {
+            ...mapActions([ 'initGame' ])
+        }
 	};
 </script>
 

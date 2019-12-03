@@ -13,16 +13,8 @@
     import { mapGetters, mapState, mapMutations } from 'vuex';
 
     import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY } from '@/constants/controls';
-    import { 
-        MAX_BENDING_ANGLE, 
-        MIN_BENDING_ANGLE,
-        BOARD_HEIGHT 
-    } from '@/constants/teeter-totter';
-    import { 
-        FALLING_SHAPE_TOP_POINT,
-        MAX_FALLING_INTERVAL_GAP, 
-        MIN_FALLING_INTERVAL_GAP 
-    } from '@/constants/shape';
+    import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE, BOARD_HEIGHT } from '@/constants/teeter-totter';
+    import { MAX_FALLING_INTERVAL_GAP, MIN_FALLING_INTERVAL_GAP } from '@/constants/shape';
 
     import Shape from './Shape.vue';
 
@@ -31,8 +23,8 @@
         components : { Shape },
         data() {
             return {
-                fallingShapeTop  : FALLING_SHAPE_TOP_POINT,
-                intervalGap      : null,
+                intervalGap: MAX_FALLING_INTERVAL_GAP,
+
                 intervalId       : null,
                 shapeBottomLimit : null
             };
@@ -46,9 +38,6 @@
 
                 return document.getElementById(`falling-shape-${ id }`);
             }
-        },
-        created() {
-            this.initGame();
         },
         mounted() {
             const boardEl = document.querySelector('.teeter-totter__board');
@@ -77,19 +66,19 @@
         methods: {
             ...mapMutations([ 
                 'addDroppedShape',
-                'finishGame',
                 'generateShape', 
-                'moveShape' 
+                'moveShape',
+                'toggleSimulation',
+                'toggleModal'
             ]),
 
             animateShape() {
                 this.intervalId = setInterval(() => {
-                    if (this.fallingShapeTop >= this.shapeBottomLimit) {
+                    if (this.fallingShapes[0].top >= this.shapeBottomLimit) {
                         const droppedShape = this.fallingShapes.shift();
 
                         clearInterval(this.intervalId);
                         
-                        this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
                         this.intervalGap > MIN_FALLING_INTERVAL_GAP && this.intervalGap--;
 
                         this.addDroppedShape(droppedShape);
@@ -97,8 +86,8 @@
                         this.animateShape(); 
                     }
                     else {
-                        this.fallingShapeTop += 1;
-                        this.fallingShapeEl.style.top = `${ this.fallingShapeTop }px`;
+                        this.fallingShapes[0].top += 1;
+                        this.fallingShapeEl.style.top = `${ this.fallingShapes[0].top }px`;
                     }
                 }, this.intervalGap);
             },
@@ -124,21 +113,12 @@
                     this.getShapeBottomLimit();
                 }
                 else {
-                    this.finishGame();
-                    this.initGame();
+                    this.toggleSimulation();
+                    this.toggleModal(true);
+                    
+
+                    this.intervalGap = MAX_FALLING_INTERVAL_GAP;
                 }
-            },
-
-            initGame() {
-                this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
-                this.intervalGap     = MAX_FALLING_INTERVAL_GAP;
-
-                // Generates to shapes for user
-                this.generateShape();
-                this.generateShape();
-
-                // Generates auto-placed shape on the right side
-                this.generateShape(true);
             },
 
             moveFallingShape({ keyCode }) {

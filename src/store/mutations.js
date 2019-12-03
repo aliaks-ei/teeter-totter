@@ -6,18 +6,14 @@ const mutations = {
         state.droppedShapes.push(shape);
     },
 
-    toggleSimulation(state) {
-        state.isGamePaused = !state.isGamePaused;
-    },
-
-    finishGame(state) {
-        alert('Game over');
-
-        state.isGamePaused = true;
-
+    clearAllShapeArrs(state) {
         state.droppedShapes = [];
         state.fallingShapes = [];
         state.randomlyPlacedShapes = [];
+    },
+
+    toggleSimulation(state) {
+        state.isGamePaused = !state.isGamePaused;
     },
 
     generateShape({ randomlyPlacedShapes, fallingShapes }, randomlyPlaced = false) {
@@ -25,10 +21,11 @@ const mutations = {
         const type   = helpers.generateRandomNumber(1, 2);
         const left   = helpers.generateRandomNumber(0, 40);
         const color  = helpers.generateRandomRGBColor();
+        const top    = 0;
         const scale  = 1 + SCALE_STEP * (weight - 1);
         const id     = helpers.getId.next().value;
 
-        const shape = { id, color, left, scale, type, weight };
+        const shape = { id, color, left, scale, top, type, weight };
 
         if (randomlyPlaced) {
             randomlyPlacedShapes.push(shape);

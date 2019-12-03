@@ -21,6 +21,7 @@
                 class      = "controls-panel__btn"
                 type       = "is-primary" 
                 size       = "is-medium"
+                tabindex   = "-1"
                 :icon-left = "isGamePaused ? 'play' : 'pause'"
                 @click     = "toggleSimulation"
             ></b-button>
@@ -31,7 +32,8 @@
                 type      = "is-primary" 
                 size      = "is-medium"
                 icon-left = "refresh"
-                @click    = "finishGame"
+                tabindex  = "-1"
+                @click    = "initGame"
                 outlined
             ></b-button>
         </div>
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-    import { mapMutations, mapState } from 'vuex';
+    import { mapActions, mapMutations, mapState } from 'vuex';
     import { SPACE_KEY } from '@/constants/controls';
 
     export default {
@@ -56,6 +58,7 @@
                 'droppedShapes',
                 'fallingShapes',
                 'isGamePaused', 
+                'isModalShown',
                 'randomlyPlacedShapes'
             ]),
 
@@ -74,16 +77,18 @@
             window.removeEventListener('keydown', this.handleSpaceClick);
         },
         methods: {
-            ...mapMutations([ 'finishGame', 'toggleSimulation' ]),
+            ...mapActions([ 'initGame' ]),
+            ...mapMutations([ 'toggleSimulation' ]),
 
             getTotalWeight(shapes = []) {
                 return shapes.reduce((total, current) => total += current.weight, 0);
             },
 
-            handleSpaceClick({ keyCode, target }) {
-                const playBtn = document.getElementById('play-btn');
+            handleSpaceClick(event) {
+                // Prevents double click if any button focused
+                event.preventDefault();
 
-                if (keyCode === SPACE_KEY && playBtn !== target) {
+                if (event.keyCode === SPACE_KEY && !this.isModalShown) {
                     this.toggleSimulation();
                 }
             }
@@ -101,7 +106,8 @@
     }
 
     .controls-panel__btn {
-        transition: 300ms ease-out;
+        transition : 300ms ease-out;
+        outline    : none;
 
         &:first-of-type {
             margin-right: .5rem;
