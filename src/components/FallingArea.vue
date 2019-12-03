@@ -13,7 +13,11 @@
     import { mapGetters, mapState, mapMutations } from 'vuex';
 
     import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY } from '@/constants/controls';
-    import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter-params';
+    import { 
+        MAX_BENDING_ANGLE, 
+        MIN_BENDING_ANGLE,
+        BOARD_HEIGHT 
+    } from '@/constants/teeter-totter-params';
     import { 
         FALLING_SHAPE_TOP_POINT,
         MAX_FALLING_INTERVAL_GAP, 
@@ -27,11 +31,10 @@
         components : { Shape },
         data() {
             return {
+                fallingShapeTop  : null,
+                intervalGap      : null,
                 intervalId       : null,
-                shapeBottomLimit : null,
-
-                fallingShapeTop : FALLING_SHAPE_TOP_POINT,
-                intervalGap     : MAX_FALLING_INTERVAL_GAP
+                shapeBottomLimit : null
             };
         },
         computed: {
@@ -45,8 +48,7 @@
             }
         },
         created() {
-            this.generateShape();
-            this.generateShape();
+            this.initGame();
 
             window.addEventListener('keydown', this.moveFallingShape);
 
@@ -59,13 +61,7 @@
                 if (current > MAX_BENDING_ANGLE || current < MIN_BENDING_ANGLE) {
                     setTimeout(() => {
                         this.finishGame();
-
-                        this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
-                        this.intervalGap     = MAX_FALLING_INTERVAL_GAP;
-
-                        this.generateShape();
-                        this.generateShape();
-                        this.generateShape(true);
+                        this.initGame();
                     }, 400);
                 }
             },
@@ -118,12 +114,24 @@
                 const shapeBounds = this.fallingShapeEl.getBoundingClientRect();
 
                 const pointOnBoard = (this.fallingShapes[0].left 
-                    * (boardBounds.bottom - boardBounds.top - 6)) 
+                    * (boardBounds.bottom - boardBounds.top - BOARD_HEIGHT)) 
                     / 100;
 
                 this.shapeBottomLimit = this.boardBendingAngle >= 0
                     ? boardBounds.top + pointOnBoard - shapeBounds.height - panelBounds.height
                     : boardBounds.bottom - pointOnBoard - shapeBounds.height - panelBounds.height;
+            },
+
+            initGame() {
+                this.fallingShapeTop = FALLING_SHAPE_TOP_POINT;
+                this.intervalGap     = MAX_FALLING_INTERVAL_GAP;
+
+                // Generates to shapes for user
+                this.generateShape();
+                this.generateShape();
+
+                // Generates auto-placed shape on the right side
+                this.generateShape(true);
             },
 
             moveFallingShape({ keyCode }) {

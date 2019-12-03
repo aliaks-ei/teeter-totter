@@ -9,11 +9,11 @@ const helpers = {
 
     getShapesProportion(shapes = [], leftSide = false) {
         return shapes.reduce((total, current) => {
-                total += leftSide 
-                    ? current.weight * (50 - current.left)
-                    : current.weight * current.left;
+            const left = leftSide ? (50 - current.left) : current.left;
 
-                return total;
+            total += current.weight * left;
+
+            return total;
         }, 0);
     }
 };

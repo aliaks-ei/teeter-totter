@@ -15,7 +15,7 @@ const getters = {
                 ? subtraction / droppedShapesSum * -50 
                 : subtraction / randomlyPlacedShapesSum * 50;
         }
-
+        console.log(angle);
         return angle;
     },
     

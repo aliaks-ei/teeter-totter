@@ -2,7 +2,7 @@
     <div class="teeter-totter">
         <div 
             class  = "teeter-totter__board"
-            :style = "boardRotationStyle"
+            :style = "boardStyles"
         >
             <!-- Dropped shapes (left side) -->
             <shape 
@@ -28,6 +28,11 @@
 
 <script>
     import { mapGetters, mapState, mapMutations } from 'vuex';
+    import { 
+        MAX_BENDING_ANGLE, 
+        MIN_BENDING_ANGLE,
+        BOARD_HEIGHT 
+    } from '@/constants/teeter-totter-params';
 
     import Shape from './Shape.vue';
 
@@ -38,20 +43,23 @@
             ...mapGetters([ 'boardBendingAngle' ]),
             ...mapState([ 'droppedShapes', 'randomlyPlacedShapes' ]),
 
-            boardRotationStyle() {
-                return `transform: rotate(${ this.boardBendingAngle / 2 }deg)`;
+            boardStyles() {
+                return { 
+                    transform : `rotate(${ this.boardBendingAngle / 2 }deg)`, 
+                    height    : `${ BOARD_HEIGHT }px`
+                };
             },
 
             shapesDiff() {
                 return this.droppedShapes.length - this.randomlyPlacedShapes.length;
             }
         },
-        mounted() {
-            this.generateShape(true);
-        },
         watch: {
             shapesDiff(current) {
-                if (current > 0) this.generateShape(true);
+                const isAngleWithinLimits = this.boardBendingAngle > MIN_BENDING_ANGLE 
+                    && this.boardBendingAngle < MAX_BENDING_ANGLE;
+
+                if (current > 0 && isAngleWithinLimits) this.generateShape(true);
             }
         },
         methods: {
@@ -71,7 +79,7 @@
     .teeter-totter__board {
         position         : relative;
         width            : 100%;
-        height           : 6px;
+        // height           : 6px;
         background-color : #d74545;
         transition       : 300ms ease-in-out; 
     }
