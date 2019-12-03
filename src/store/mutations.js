@@ -1,5 +1,4 @@
 import { MIN_WEIGHT, MAX_WEIGHT, SCALE_STEP } from '@/constants/shape';
-
 import helpers from '@/utils/helpers';
 
 const mutations = {

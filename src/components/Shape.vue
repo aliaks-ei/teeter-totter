@@ -90,8 +90,9 @@
         transform-origin : top left;
 
         .shape__weight {
-            font-size   : 12px;
+            font-size   : 10px;
             font-weight : 500;
+            color: #fff;
         }
     }
 
@@ -114,7 +115,7 @@
 
         .shape__weight {
             position   : absolute;
-            top        : calc(100% + 1rem);
+            top        : calc(100% + .9rem);
             width      : 4.5rem;
             text-align : center;
         }

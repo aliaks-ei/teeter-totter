@@ -13,9 +13,11 @@ const helpers = {
     },
 
     generateRandomRGBColor() {
-        const r = Math.round(Math.random() * 255);
-        const g = Math.round(Math.random() * 255);
-        const b = Math.round(Math.random() * 255);
+        const maxValue = 200; // to generate only dark colors
+
+        const r = this.generateRandomNumber(0, maxValue);
+        const g = this.generateRandomNumber(0, maxValue);
+        const b = this.generateRandomNumber(0, maxValue);
 
         return `rgb(${ r }, ${ g }, ${ b })`;
     },
