@@ -13,7 +13,7 @@
     import { mapGetters, mapState, mapMutations } from 'vuex';
 
     import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY } from '@/constants/controls';
-    import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE, BOARD_HEIGHT } from '@/constants/teeter-totter';
+    import { BOARD_HEIGHT, BOARD_WIDTH } from '@/constants/teeter-totter';
 
     import Shape from './Shape.vue';
 
@@ -94,13 +94,13 @@
                 const panelBounds = document.querySelector('.controls-panel').getBoundingClientRect();
                 const shapeBounds = this.fallingShapeEl.getBoundingClientRect();
 
-                const pointOnBoard = (this.fallingShapes[0].left 
-                    * (boardBounds.bottom - boardBounds.top - BOARD_HEIGHT)) 
-                    / 100;
+                // Similarity of triangles
+                const totterCathet  = boardBounds.bottom - boardBounds.top - BOARD_HEIGHT;
+                const similarCathet = (this.fallingShapes[0].left * totterCathet) / BOARD_WIDTH;
 
                 this.shapeBottomLimit = this.boardBendingAngle >= 0
-                    ? boardBounds.top + pointOnBoard - shapeBounds.height - panelBounds.height
-                    : boardBounds.bottom - pointOnBoard - shapeBounds.height - panelBounds.height;
+                    ? boardBounds.top + similarCathet - shapeBounds.height - panelBounds.height
+                    : boardBounds.bottom - similarCathet - shapeBounds.height - panelBounds.height;
             },
 
             handleBoardTransitionEnd() {
