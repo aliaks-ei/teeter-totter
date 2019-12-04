@@ -2,8 +2,9 @@ const actions = {
     initGame({ commit, state }) {
         if (!state.isGamePaused) commit('toggleSimulation');
         if (state.isModalShown) commit('toggleModal');
-
-        commit('clearAllShapeArrs');
+        
+        commit('updateFallingIntervalGap', true);
+        commit('clearAllShapeArrs');    
 
         // Generates to shapes for user
         commit('generateShape');

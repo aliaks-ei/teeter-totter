@@ -14,7 +14,6 @@
 
     import { LEFT_ARROW_KEY, RIGHT_ARROW_KEY } from '@/constants/controls';
     import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE, BOARD_HEIGHT } from '@/constants/teeter-totter';
-    import { MAX_FALLING_INTERVAL_GAP, MIN_FALLING_INTERVAL_GAP } from '@/constants/shape';
 
     import Shape from './Shape.vue';
 
@@ -23,15 +22,13 @@
         components : { Shape },
         data() {
             return {
-                intervalGap: MAX_FALLING_INTERVAL_GAP,
-
                 intervalId       : null,
                 shapeBottomLimit : null
             };
         },
         computed: {
             ...mapGetters([ 'boardBendingAngle', 'isBoardAngleWithinLimits' ]),
-            ...mapState([ 'fallingShapes', 'isGamePaused' ]),
+            ...mapState([ 'fallingIntervalGap', 'fallingShapes', 'isGamePaused' ]),
 
             fallingShapeEl() {
                 const { id } = this.fallingShapes[0];
@@ -69,7 +66,8 @@
                 'generateShape', 
                 'moveShape',
                 'toggleSimulation',
-                'toggleModal'
+                'toggleModal',
+                'updateFallingIntervalGap'
             ]),
 
             animateShape() {
@@ -79,9 +77,8 @@
 
                         clearInterval(this.intervalId);
                         
-                        this.intervalGap > MIN_FALLING_INTERVAL_GAP && this.intervalGap--;
-
                         this.addDroppedShape(droppedShape);
+                        this.updateFallingIntervalGap();
                         this.generateShape();
                         this.animateShape(); 
                     }
@@ -89,7 +86,7 @@
                         this.fallingShapes[0].top += 1;
                         this.fallingShapeEl.style.top = `${ this.fallingShapes[0].top }px`;
                     }
-                }, this.intervalGap);
+                }, this.fallingIntervalGap);
             },
 
             getShapeBottomLimit() {
@@ -115,9 +112,6 @@
                 else {
                     this.toggleSimulation();
                     this.toggleModal(true);
-                    
-
-                    this.intervalGap = MAX_FALLING_INTERVAL_GAP;
                 }
             },
 
@@ -133,6 +127,7 @@
                     moveLeft : keyCode === LEFT_ARROW_KEY, 
                     width    : (shapeWidth / areaWidth) * 100 
                 });
+
                 this.$nextTick(this.getShapeBottomLimit);
             }
         }

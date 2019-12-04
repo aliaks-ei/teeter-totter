@@ -1,4 +1,10 @@
-import { MIN_WEIGHT, MAX_WEIGHT, SCALE_STEP } from '@/constants/shape';
+import { 
+    MAX_FALLING_INTERVAL_GAP, 
+    MIN_FALLING_INTERVAL_GAP,
+    MIN_WEIGHT, 
+    MAX_WEIGHT, 
+    SCALE_STEP 
+} from '@/constants/shape';
 import helpers from '@/utils/helpers';
 
 const mutations = {
@@ -47,6 +53,15 @@ const mutations = {
 
     toggleModal(state, isShown = false) {
         state.isModalShown = isShown;
+    },
+
+    updateFallingIntervalGap(state, reset = false) {
+        if (reset) {
+            state.fallingIntervalGap = MAX_FALLING_INTERVAL_GAP;
+        }
+        else if (state.fallingIntervalGap > MIN_FALLING_INTERVAL_GAP) {
+            state.fallingIntervalGap--;
+        }
     }
 };
 

@@ -4,7 +4,9 @@ const state = {
     randomlyPlacedShapes : [],
 
     isGamePaused : true,
-    isModalShown : false
+    isModalShown : false,
+
+    fallingIntervalGap: null
 };
 
 export default state;
