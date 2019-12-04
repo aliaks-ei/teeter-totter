@@ -1,11 +1,7 @@
 <template>
     <div
         class  = "shape"
-        :class = "{
-            'shape--square'   : shape.type == SQUARE,
-            'shape--triangle' : shape.type == TRIANGLE,
-            'shape--circle'   : shape.type == CIRCLE
-        }"
+        :class = "shapeClasses"
     >
         <div class="shape__weight"> {{ shape.weight }} kg </div>
     </div>
@@ -32,20 +28,21 @@
                 required : true
             }
         },
-        data() {
-            return { CIRCLE, TRIANGLE, SQUARE };
+        computed: {
+            shapeClasses() {
+                const { type } = this.shape;
+
+                return {
+                    'shape--square'   : type === SQUARE,
+                    'shape--triangle' : type === TRIANGLE,
+                    'shape--circle'   : type === CIRCLE
+                };
+            }
         },
         mounted() {
             this.setShapeAppearance();
-            this.setShapePosition();
-        },
-        watch: {
-            shape: {
-                handler() {
-                    this.setShapePosition();
-                },
-                deep: true
-            }
+
+            this.$watch('shape.left', this.setShapePosition, { immediate: true });
         },
         methods: {
             setShapeAppearance() {
@@ -66,11 +63,9 @@
                 }
             },
 
-            setShapePosition() {
-                const { left }  = this.shape;
+            setShapePosition(left) {
                 const { width } = this.$el.getBoundingClientRect();
-
-                const start = this.randomlyPlaced ? 55 : 0;
+                const start = this.randomlyPlaced ? 60 : 0;
 
                 this.$el.style.left = (this.randomlyPlaced && left > 25)
                     ? `calc(${ start + left }% - ${ width }px)`
@@ -92,7 +87,7 @@
         .shape__weight {
             font-size   : 10px;
             font-weight : 500;
-            color: #fff;
+            color       : #fff;
         }
     }
 
