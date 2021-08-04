@@ -2,24 +2,24 @@
     <header class="controls-panel">
         <!-- Falling shapes stats -->
         <div class="shapes-stats">
-            <div> 
-                Total weight: 
-                <span class="shapes-stats__weight"> {{ totalDroppedShapesWeight }} kg </span> 
+            <div>
+                Total weight:
+                <span class="shapes-stats__weight"> {{ totalDroppedShapesWeight }} kg </span>
             </div>
-            <div> 
-                Momentum: 
-                <span class="shapes-stats__weight"> 
-                    {{ fallingShapes[0] && fallingShapes[0].weight }} kg 
-                </span> 
+            <div>
+                Momentum:
+                <span class="shapes-stats__weight">
+                    {{ fallingShapes[0] && fallingShapes[0].weight }} kg
+                </span>
             </div>
         </div>
 
         <div>
             <!-- Play / pause btn  -->
-            <b-button 
+            <b-button
                 id         = "play-btn"
                 class      = "controls-panel__btn"
-                type       = "is-primary" 
+                type       = "is-primary"
                 size       = "is-medium"
                 tabindex   = "-1"
                 :icon-left = "isGamePaused ? 'play' : 'pause'"
@@ -27,9 +27,9 @@
             ></b-button>
 
             <!-- Restart game -->
-            <b-button 
+            <b-button
                 class     = "controls-panel__btn"
-                type      = "is-primary" 
+                type      = "is-primary"
                 size      = "is-medium"
                 icon-left = "refresh"
                 tabindex  = "-1"
@@ -40,9 +40,9 @@
 
         <!-- Randomly places shapes stats  -->
         <div class="shapes-stats">
-            <div> 
-                Total weight: 
-                <span class="shapes-stats__weight"> {{ totalRandomShapesWeight }} kg </span> 
+            <div>
+                Total weight:
+                <span class="shapes-stats__weight"> {{ totalRandomShapesWeight }} kg </span>
             </div>
         </div>
     </header>
@@ -54,10 +54,10 @@
 
     export default {
         computed: {
-            ...mapState([ 
+            ...mapState([
                 'droppedShapes',
                 'fallingShapes',
-                'isGamePaused', 
+                'isGamePaused',
                 'isModalShown',
                 'randomlyPlacedShapes'
             ]),

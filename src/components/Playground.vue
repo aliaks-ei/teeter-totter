@@ -1,8 +1,8 @@
 <template>
     <main class="playground">
         <falling-area></falling-area>
-		<teeter-totter></teeter-totter>
-	</main>
+    <teeter-totter></teeter-totter>
+  </main>
 </template>
 
 <script>
@@ -11,10 +11,10 @@
     import FallingArea  from './FallingArea.vue';
     import TeeterTotter from './TeeterTotter.vue';
 
-	export default {
-		components: { 
+  export default {
+    components: {
             FallingArea,
-            TeeterTotter 
+            TeeterTotter
         },
         created() {
             this.initGame();
@@ -22,7 +22,7 @@
         methods: {
             ...mapActions([ 'initGame' ])
         }
-	};
+  };
 </script>
 
 <style lang="scss" scoped>

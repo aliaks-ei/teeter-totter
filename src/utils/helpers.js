@@ -1,36 +1,35 @@
 // Shapes id generator
 function* idMaker() {
-    let id = 1;
+  let id = 1;
 
-    while (true) yield id++;
+  while (true) {
+    yield id++;
+  }
 }
 
 const helpers = {
-    getId: idMaker(),
+  getId: idMaker(),
+  generateRandomNumber(min = 0, max = 1) {
+    return min + Math.round(Math.random() * max);
+  },
+  generateRandomRGBColor() {
+    const maxValue = 200; // to generate only dark colors
 
-    generateRandomNumber(min = 0, max = 1) {
-        return min + Math.round(Math.random() * max);
-    },
+    const r = this.generateRandomNumber(0, maxValue);
+    const g = this.generateRandomNumber(0, maxValue);
+    const b = this.generateRandomNumber(0, maxValue);
 
-    generateRandomRGBColor() {
-        const maxValue = 200; // to generate only dark colors
+    return `rgb(${ r }, ${ g }, ${ b })`;
+  },
+  getShapesProportion(shapes = [], leftSide = false) {
+    return shapes.reduce((total, current) => {
+      const left = leftSide ? (50 - current.left) : current.left;
 
-        const r = this.generateRandomNumber(0, maxValue);
-        const g = this.generateRandomNumber(0, maxValue);
-        const b = this.generateRandomNumber(0, maxValue);
+      total += current.weight * left;
 
-        return `rgb(${ r }, ${ g }, ${ b })`;
-    },
-
-    getShapesProportion(shapes = [], leftSide = false) {
-        return shapes.reduce((total, current) => {
-            const left = leftSide ? (50 - current.left) : current.left;
-
-            total += current.weight * left;
-
-            return total;
-        }, 0);
-    }
+      return total;
+    }, 0);
+  }
 };
 
 export default helpers;

@@ -1,6 +1,6 @@
 <template>
     <div class="falling-area">
-        <shape 
+        <shape
             v-for  = "shape in fallingShapes"
             :key   = "shape.id"
             :shape = "shape"
@@ -61,9 +61,9 @@
             }
         },
         methods: {
-            ...mapMutations([ 
+            ...mapMutations([
                 'addDroppedShape',
-                'generateShape', 
+                'generateShape',
                 'moveShape',
                 'toggleSimulation',
                 'toggleModal',
@@ -76,11 +76,11 @@
                         const droppedShape = this.fallingShapes.shift();
 
                         clearInterval(this.intervalId);
-                        
+
                         this.addDroppedShape(droppedShape);
                         this.updateFallingIntervalGap();
                         this.generateShape();
-                        this.animateShape(); 
+                        this.animateShape();
                     }
                     else {
                         this.fallingShapes[0].top += 1;
@@ -123,9 +123,9 @@
                 const shapeWidth = this.fallingShapeEl.getBoundingClientRect().width;
                 const areaWidth  = document.querySelector('.falling-area').getBoundingClientRect().width;
 
-                this.moveShape({ 
-                    moveLeft : keyCode === LEFT_ARROW_KEY, 
-                    width    : (shapeWidth / areaWidth) * 100 
+                this.moveShape({
+                    moveLeft : keyCode === LEFT_ARROW_KEY,
+                    width    : (shapeWidth / areaWidth) * 100
                 });
 
                 this.$nextTick(this.getShapeBottomLimit);
@@ -136,9 +136,9 @@
 
 <style lang="scss" scoped>
 
-   .falling-area {
-       position : relative;
-       flex     : 1 1 50%;
-   }
-   
+  .falling-area {
+      position : relative;
+      flex     : 1 1 50%;
+  }
+
 </style>

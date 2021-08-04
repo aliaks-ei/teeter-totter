@@ -16,8 +16,8 @@
                 Don't be so cut up about it.
             </section>
             <footer class="modal-card-foot">
-                <b-button 
-                    type   = "is-primary" 
+                <b-button
+                    type   = "is-primary"
                     @click = "initGame"
                 >
                     Try again

@@ -1,11 +1,11 @@
 <template>
     <div class="teeter-totter">
-        <div 
+        <div
             class  = "teeter-totter__board"
             :style = "boardStyles"
         >
             <!-- Dropped shapes (left side) -->
-            <shape 
+            <shape
                 v-for  = "shape in droppedShapes"
                 :key   = "shape.id"
                 :shape = "shape"
@@ -13,7 +13,7 @@
             ></shape>
 
             <!-- Randomly places shapes (right side) -->
-            <shape 
+            <shape
                 v-for   = "shape in randomlyPlacedShapes"
                 :key    = "shape.id"
                 :shape  = "shape"
@@ -21,17 +21,17 @@
                 randomly-placed
             ></shape>
         </div>
-        
+
         <div class="teeter-totter__foundation"></div>
     </div>
 </template>
 
 <script>
     import { mapGetters, mapState, mapMutations } from 'vuex';
-    import { 
-        MAX_BENDING_ANGLE, 
+    import {
+        MAX_BENDING_ANGLE,
         MIN_BENDING_ANGLE,
-        BOARD_HEIGHT 
+        BOARD_HEIGHT
     } from '@/constants/teeter-totter';
 
     import Shape from './Shape.vue';
@@ -44,8 +44,8 @@
             ...mapState([ 'droppedShapes', 'randomlyPlacedShapes' ]),
 
             boardStyles() {
-                return { 
-                    transform : `rotate(${ this.boardBendingAngle / 2 }deg)`, 
+                return {
+                    transform : `rotate(${ this.boardBendingAngle / 2 }deg)`,
                     height    : `${ BOARD_HEIGHT }px`
                 };
             },
@@ -79,12 +79,12 @@
         position         : relative;
         width            : 100%;
         background-color : #d74545;
-        transition       : 300ms ease-in-out; 
+        transition       : 300ms ease-in-out;
     }
 
     .teeter-totter__foundation {
-        width         : 0; 
-        height        : 0; 
+        width         : 0;
+        height        : 0;
         border-left   : 3rem solid transparent;
         border-right  : 3rem solid transparent;
         border-bottom : 8rem solid #9b9b9b;
