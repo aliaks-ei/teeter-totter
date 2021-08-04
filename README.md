@@ -1,5 +1,8 @@
 # Teeter-totter game
 
+[![](https://github.com/alexmozheyko/teeter-totter/workflows/Lint%20JS/badge.svg)](https://github.com/alexmozheyko/teeter-totter/actions?query=workflow%3A%22Lint+JS%22)
+[![](https://github.com/alexmozheyko/teeter-totter/workflows/EditorConfig/badge.svg)](https://github.com/alexmozheyko/teeter-totter/actions?query=workflow%3AEditorConfig)
+
 Teeter Totter Tower is a game where player attempts to score points against AI by placing colorful shapes on left side of the seesaw. The seesaw teeters back and forth and too much weight on player's side will cause a topple, which means defeat.
 
 ### Install dependencies
