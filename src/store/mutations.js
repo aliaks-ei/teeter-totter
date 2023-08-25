@@ -21,31 +21,29 @@ const mutations = {
   },
   generateShape({ randomlyPlacedShapes, fallingShapes }, randomlyPlaced = false) {
     const weight = helpers.generateRandomNumber(MIN_WEIGHT, MAX_WEIGHT - 1);
-    const type   = helpers.generateRandomNumber(1, 2);
-    const left   = helpers.generateRandomNumber(0, 40);
-    const color  = helpers.generateRandomRGBColor();
-    const top    = 0;
-    const scale  = 1 + SCALE_STEP * (weight - 1);
-    const id     = helpers.getId.next().value;
+    const type = helpers.generateRandomNumber(1, 2);
+    const left = helpers.generateRandomNumber(0, 40);
+    const color = helpers.generateRandomRGBColor();
+    const top = 0;
+    const scale = 1 + SCALE_STEP * (weight - 1);
+    const id = helpers.getId.next().value;
     const shape = { id, color, left, scale, top, type, weight };
 
     if (randomlyPlaced) {
-        randomlyPlacedShapes.push(shape);
-    }
-    else {
-        fallingShapes.push(shape);
+      randomlyPlacedShapes.push(shape);
+    } else {
+      fallingShapes.push(shape);
     }
   },
   moveShape({ fallingShapes }, { moveLeft, width }) {
     const [shape] = fallingShapes;
 
-    const canMoveLeft  = shape.left - 1 >= 0;
+    const canMoveLeft = shape.left - 1 >= 0;
     const canMoveRight = shape.left + width + 1 <= 45;
 
     if (moveLeft) {
       canMoveLeft && shape.left--;
-    }
-    else {
+    } else {
       canMoveRight && shape.left++;
     }
   },
@@ -55,8 +53,7 @@ const mutations = {
   updateFallingIntervalGap(state, reset = false) {
     if (reset) {
       state.fallingIntervalGap = MAX_FALLING_INTERVAL_GAP;
-    }
-    else if (state.fallingIntervalGap > MIN_FALLING_INTERVAL_GAP) {
+    } else if (state.fallingIntervalGap > MIN_FALLING_INTERVAL_GAP) {
       state.fallingIntervalGap--;
     }
   }

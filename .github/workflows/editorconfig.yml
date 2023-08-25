@@ -1,16 +1,13 @@
 name: EditorConfig
 
-on:
-  push:
-    branches:
-      - master
+on: ['push']
 
 jobs:
   editorconfig-check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['12', '14']
+        node-version: ['16']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
