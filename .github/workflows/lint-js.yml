@@ -1,16 +1,13 @@
 name: Lint JS
 
-on:
-  push:
-    branches:
-      - master
+on: ['push']
 
 jobs:
   lint-js:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['12', '14']
+        node-version: ['16']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

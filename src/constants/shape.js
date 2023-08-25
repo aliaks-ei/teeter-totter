@@ -1,7 +1,7 @@
 // Shape types
-export const SQUARE   = 1;
+export const SQUARE = 1;
 export const TRIANGLE = 2;
-export const CIRCLE   = 3;
+export const CIRCLE = 3;
 
 // Min and max weight
 export const MIN_WEIGHT = 1;

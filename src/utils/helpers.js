@@ -23,7 +23,7 @@ const helpers = {
   },
   getShapesProportion(shapes = [], leftSide = false) {
     return shapes.reduce((total, current) => {
-      const left = leftSide ? (50 - current.left) : current.left;
+      const left = leftSide ? 50 - current.left : current.left;
 
       total += current.weight * left;
 

@@ -2,18 +2,17 @@ import { MAX_BENDING_ANGLE, MIN_BENDING_ANGLE } from '@/constants/teeter-totter'
 import helpers from '@/utils/helpers';
 
 const getters = {
-  boardBendingAngle(state, { droppedShapesSum, randomlyPlacedShapesSum }) {
+  boardBendingAngle(_state, { droppedShapesSum, randomlyPlacedShapesSum }) {
     let angle = 0;
 
     if (!droppedShapesSum) {
       angle = MAX_BENDING_ANGLE;
-    }
-    else {
+    } else {
       const subtraction = Math.abs(droppedShapesSum - randomlyPlacedShapesSum);
 
       angle = droppedShapesSum > randomlyPlacedShapesSum
-        ? subtraction / droppedShapesSum * -50
-        : subtraction / randomlyPlacedShapesSum * 50;
+          ? (subtraction / droppedShapesSum) * -50
+          : (subtraction / randomlyPlacedShapesSum) * 50;
     }
 
     return angle;
